@@ -33,11 +33,11 @@ export function UserTableHeader({ sortBy, sortOrder, onSort }: UserTableHeaderPr
         <TableHead className="cursor-pointer hover:bg-gray-100" onClick={() => onSort("email")}>
           Email <SortIcon field="email" currentSortBy={sortBy} currentSortOrder={sortOrder} />
         </TableHead>
-        <TableHead className="cursor-pointer hover:bg-gray-100" onClick={() => onSort("role")}>
-          Role <SortIcon field="role" currentSortBy={sortBy} currentSortOrder={sortOrder} />
+        <TableHead>
+          Role
         </TableHead>
-        <TableHead className="cursor-pointer hover:bg-gray-100" onClick={() => onSort("status")}>
-          Status <SortIcon field="status" currentSortBy={sortBy} currentSortOrder={sortOrder} />
+        <TableHead>
+          Status
         </TableHead>
         <TableHead className="cursor-pointer hover:bg-gray-100" onClick={() => onSort("joinDate")}>
           Join Date <SortIcon field="joinDate" currentSortBy={sortBy} currentSortOrder={sortOrder} />

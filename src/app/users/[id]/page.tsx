@@ -29,8 +29,8 @@ export default function UserDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-8">
-        <div className="max-w-2xl mx-auto">
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto px-0">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
             <div className="space-y-3">
@@ -46,8 +46,8 @@ export default function UserDetailPage() {
 
   if (error || !user) {
     return (
-      <div className="container mx-auto py-8">
-        <div className="max-w-2xl mx-auto text-center">
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto px-0 text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">User Not Found</h1>
           <p className="text-gray-600 mb-6">The user you're looking for doesn't exist.</p>
           <Button onClick={() => router.back()}>
@@ -60,9 +60,9 @@ export default function UserDetailPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <Breadcrumb />
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto px-0">
         <div className="mb-6">
           <Button variant="ghost" onClick={() => router.back()} className="mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />

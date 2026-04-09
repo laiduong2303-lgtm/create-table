@@ -29,6 +29,8 @@ const emptyUserForm = {
   lastLogin: new Date().toISOString().slice(0, 10),
 };
 
+type UserFormData = typeof emptyUserForm;
+
 export function UsersTable() {
   const {
     pageIndex,
@@ -68,11 +70,16 @@ export function UsersTable() {
     deleteUserMutation.isPending;
 
   const queryData = data as unknown as {
-    data: Array<{ id: string; name: string; email: string; role: string; status: string; joinDate: string; lastLogin: string; }>;
+    data: Array<{ id: string; name: string; email: string; role: "admin" | "user" | "editor"; status: "active" | "inactive" | "pending"; joinDate: string; lastLogin: string; }>;
     total: number;
     pageIndex: number;
     pageSize: number;
   } | undefined;
+
+  const editingUser = useMemo(() => {
+    if (!editingId || !queryData) return null;
+    return queryData.data.find((user) => user.id === editingId) ?? null;
+  }, [editingId, queryData]);
 
   const totalPages = useMemo(() => {
     if (!queryData) return 0;
@@ -129,21 +136,22 @@ export function UsersTable() {
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
         editingId={editingId}
+        editingUser={editingUser}
         onCancel={resetForm}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="h-10 pl-10"
           />
         </div>
         <Select value={roleFilter || ""} onValueChange={(val) => setRoleFilter(val || null)}>
-          <SelectTrigger><SelectValue placeholder="Filter by role" /></SelectTrigger>
+          <SelectTrigger className="w-full"><SelectValue placeholder="Filter by role" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="">All Roles</SelectItem>
             <SelectItem value="admin">Admin</SelectItem>
@@ -152,7 +160,7 @@ export function UsersTable() {
           </SelectContent>
         </Select>
         <Select value={statusFilter || ""} onValueChange={(val) => setStatusFilter(val || null)}>
-          <SelectTrigger><SelectValue placeholder="Filter by status" /></SelectTrigger>
+          <SelectTrigger className="w-full"><SelectValue placeholder="Filter by status" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="">All Status</SelectItem>
             <SelectItem value="active">Active</SelectItem>
@@ -203,7 +211,7 @@ export function UsersTable() {
         </Table>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-sm text-gray-600">
           {error ? (
             <span className="text-red-600">Error loading users</span>
